@@ -1,9 +1,31 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { AndroidColor } from "@notifee/react-native";
-import notifee from '@notifee/react-native'
+import * as Notification from 'expo-notifications'
+
+Notification.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+        shouldShowAlert: true
+    })
+})
 
 export default function Home(){
+
+    async function handleNotification(){
+        const status = await Notification.getPermissionsAsync()
+        if(!status.granted) {
+            Alert.alert("Alerta", "Sem permissão")
+        }
+        Notification.scheduleNotificationAsync({
+            content: {
+                title: "Pix recebido",
+                body: "\nTeste"
+            },
+            trigger: null
+        })
+    }
+
     return(
         <View style={styles.container}>
             <StatusBar style='light' backgroundColor='#161616'/>
@@ -15,7 +37,7 @@ export default function Home(){
 
             <View style={{marginBottom: 20}}>
                 <Text style={styles.label}>Titulo</Text>
-                <TextInput style={styles.input} keyboardType="text" />
+                <TextInput style={styles.input} keyboardType="default" />
             </View>
 
             <View style={{marginBottom: 20}}>
@@ -33,7 +55,7 @@ export default function Home(){
                 <TextInput style={{...styles.input, width: 250, height: 95}}/>
             </View>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleNotification}>
                 <Text style={{color: "white", fontSize: 18, fontWeight: "500"}}>Enviar Notificação</Text>
             </TouchableOpacity>
         </View>

@@ -26,7 +26,6 @@
     },
     "plugins": [
       "expo-router",
-      "@notifee/react-native",
       [
         "expo-build-properties",
         {
