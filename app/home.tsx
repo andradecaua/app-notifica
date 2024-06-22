@@ -20,9 +20,9 @@ export default function Home(){
         Notification.scheduleNotificationAsync({
             content: {
                 title: "Pix recebido",
-                body: "\nTeste"
+                body: "\nTeste",
             },
-            trigger: null
+            trigger: null,
         })
     }
 
